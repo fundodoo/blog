@@ -2486,11 +2486,11 @@ figure.gallery-group .gallery-group-name:after {
   transition: all 0.5s;
 }
 #nav.full_page {
-  height: 100vh;
+  height: 300px;
 }
 #nav.full_page #site-info {
   position: absolute;
-  top: 43%;
+  top: 88px;
   padding: 0 0.5rem;
   width: 100%;
 }
