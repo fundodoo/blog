@@ -337,6 +337,13 @@ canvas,
   -ms-animation: scroll-down-effect 1.5s infinite;
   animation: scroll-down-effect 1.5s infinite;
 }
+.avatar-img {
+  -webkit-animation: avatar_turn_around 2s linear infinite;
+  -moz-animation: avatar_turn_around 2s linear infinite;
+  -o-animation: avatar_turn_around 2s linear infinite;
+  -ms-animation: avatar_turn_around 2s linear infinite;
+  animation: avatar_turn_around 2s linear infinite;
+}
 .reward-main {
   -webkit-animation: donate_effcet 0.3s 0.1s ease both;
   -moz-animation: donate_effcet 0.3s 0.1s ease both;
@@ -1896,6 +1903,9 @@ blockquote footer cite:before {
   color: #000;
   font-size: 1rem;
 }
+#aside_content .card-info .card-info-data > .card-info-data-item a .hiddenAll {
+  display: none;
+}
 #aside_content .card-info .card-info-social-icons {
   margin: 0.3rem 0 -0.3rem;
 }
@@ -2542,7 +2552,7 @@ figure.gallery-group .gallery-group-name:after {
   font-size: 30px;
 }
 #nav.not-index-bg {
-  height: 20rem;
+  height: 10rem;
 }
 #nav #page_site-info {
   position: absolute;
@@ -2551,7 +2561,7 @@ figure.gallery-group .gallery-group-name:after {
   width: 100%;
 }
 #nav.post-bg {
-  height: 20rem;
+  height: 10rem;
 }
 #nav.post-bg:before {
   position: absolute;
@@ -2565,7 +2575,7 @@ figure.gallery-group .gallery-group-name:after {
 }
 #nav.post-bg #post-info {
   position: absolute;
-  bottom: 1.5rem;
+  bottom: 0.5rem;
   padding: 0 8%;
   width: 100%;
   color: #eee;
@@ -2764,7 +2774,7 @@ figure.gallery-group .gallery-group-name:after {
 #page-header .menus_item .menus_item_child li {
   padding: 1px 10px;
   list-style: none;
-  text-align: center;
+  text-align: left;
 }
 #page-header .menus_item .menus_item_child li:hover {
   background: #49b1f5;
