@@ -2286,9 +2286,17 @@ blockquote footer cite:before {
 }
 #footer-wrap {
   position: relative;
-  padding: 2rem 1rem;
+  padding: 0.6rem 1rem;
   color: #eee;
   text-align: center;
+}
+#footer-wrap .copyright {
+  display: inline-block;
+  padding: 0 5px;
+}
+#footer-wrap .framework-info {
+  display: inline-block;
+  padding: 0 5px;
 }
 #footer-wrap a {
   color: #eee;
@@ -2486,11 +2494,11 @@ figure.gallery-group .gallery-group-name:after {
   transition: all 0.5s;
 }
 #nav.full_page {
-  height: 300px;
+  height: 280px;
 }
 #nav.full_page #site-info {
   position: absolute;
-  top: 88px;
+  top: 98px;
   padding: 0 0.5rem;
   width: 100%;
 }
@@ -3129,7 +3137,7 @@ figure.gallery-group .gallery-group-name:after {
   -webkit-align-items: center;
   align-items: center;
   padding: 0;
-  height: 280px;
+  height: 198px;
   border-radius: 8px;
   background: #fff;
   -webkit-box-shadow: 0 4px 8px 6px rgba(7,17,27,0.06);
@@ -3165,8 +3173,8 @@ figure.gallery-group .gallery-group-name:after {
 }
 #recent-posts > .recent-post-item .post_cover {
   overflow: hidden;
-  width: 45%;
-  height: 280px;
+  width: 30%;
+  height: 198px;
   -webkit-mask-image: -webkit-radial-gradient(#fff, #000);
 }
 #recent-posts > .recent-post-item .post_cover img.post_bg {
@@ -3194,7 +3202,7 @@ figure.gallery-group .gallery-group-name:after {
   display: inline-block;
   overflow: hidden;
   padding: 0 40px;
-  width: 55%;
+  width: 70%;
 }
 #recent-posts > .recent-post-item >.recent-post-info.no-cover {
   width: 100%;
