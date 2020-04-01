@@ -1,0 +1,178 @@
+<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Zookeeper技术内幕 | 醉探索戈壁</title><meta name="description" content="Zookeeper技术内幕"><meta name="keywords" content="Zookeeper"><meta name="author" content="醉,3313204840@qq.com"><meta name="copyright" content="醉"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Zookeeper技术内幕"><meta name="twitter:description" content="Zookeeper技术内幕"><meta name="twitter:image" content="https://blog.fundodoo.com/img/post.jpg"><meta property="og:type" content="article"><meta property="og:title" content="Zookeeper技术内幕"><meta property="og:url" content="https://blog.fundodoo.com/zh-CN/2020/04/01/54.html"><meta property="og:site_name" content="醉探索戈壁"><meta property="og:description" content="Zookeeper技术内幕"><meta property="og:image" content="https://blog.fundodoo.com/img/post.jpg"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '2'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="canonical" href="https://blog.fundodoo.com/zh-CN/2020/04/01/54.html"><link rel="next" title="Java_集合知识" href="https://blog.fundodoo.com/zh-CN/2020/03/31/11.html"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5/js/md5.min.js"></script><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'ca-pub-4349807219272870',
+  enable_page_level_ads: 'true'
+});</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: {"languages":{"author":"作者: 醉","link":"链接: ","source":"来源: 醉探索戈壁","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: {"text":"本人,超帥,富強,民主,文明,和谐,自由,平等,公正,法治,爱国,敬业,诚信,友善","fontSize":"15px"},
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: {"bookmark":{"message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#2d3035","position":"top-right"},
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">7</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">9</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">3</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-archive" aria-hidden="true"></i><span> 开发</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/categories/Java/"><i class="fa-fw fa fa-music"></i><span> Java</span></a></li><li><a class="site-page" href="/categories/multi-thread/"><i class="fa-fw fa fa-music"></i><span> 多线程</span></a></li><li><a class="site-page" href="/categories/JVM/"><i class="fa-fw fa fa-film"></i><span> JVM</span></a></li><li><a class="site-page" href="/categories/Netty/"><i class="fa-fw fa fa-film"></i><span> Netty</span></a></li><li><a class="site-page" href="/categories/Vue/"><i class="fa-fw fa fa-film"></i><span> Vue</span></a></li><li><a class="site-page" href="/categories/Ag-grid/"><i class="fa-fw fa fa-film"></i><span> Ag-grid</span></a></li></ul></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-tags" aria-hidden="true"></i><span> 数据库</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/categories/Mysql/"><i class="fa-fw fa fa-music"></i><span> Mysql</span></a></li><li><a class="site-page" href="/categories/Redis/"><i class="fa-fw fa fa-film"></i><span> Redis</span></a></li><li><a class="site-page" href="/categories/MongoDB/"><i class="fa-fw fa fa-film"></i><span> MongoDB</span></a></li></ul></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-folder-open" aria-hidden="true"></i><span> 系统架构</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/categories/Cloud/"><i class="fa-fw fa fa-music"></i><span> Cloud</span></a></li><li><a class="site-page" href="/categories/Dubbo/"><i class="fa-fw fa fa-music"></i><span> Dubbo</span></a></li><li><a class="site-page" href="/categories/Kafka/"><i class="fa-fw fa fa-film"></i><span> Kafka</span></a></li></ul></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 系统运维</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/categories/Docker/"><i class="fa-fw fa fa-music"></i><span> Docker</span></a></li><li><a class="site-page" href="/categories/K8s/"><i class="fa-fw fa fa-film"></i><span> K8s</span></a></li><li><a class="site-page" href="/categories/Zookeeper/"><i class="fa-fw fa fa-film"></i><span> Zookeeper</span></a></li><li><a class="site-page" href="/categories/Doc/"><i class="fa-fw fa fa-film"></i><span> Doc</span></a></li></ul></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 休闲娱乐</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于我</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据模型znode"><span class="toc-number">1.</span> <span class="toc-text"> 数据模型znode</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#节点类型"><span class="toc-number">1.1.</span> <span class="toc-text"> 节点类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#节点状态"><span class="toc-number">1.2.</span> <span class="toc-text"> 节点状态</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#会话"><span class="toc-number">2.</span> <span class="toc-text"> 会话</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#会话状态"><span class="toc-number">2.1.</span> <span class="toc-text"> 会话状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#会话连接超时管理客户端维护"><span class="toc-number">2.2.</span> <span class="toc-text"> 会话连接超时管理—客户端维护</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#会话空闲超时管理服务端维护"><span class="toc-number">2.3.</span> <span class="toc-text"> 会话空闲超时管理—服务端维护</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#会话连接事件"><span class="toc-number">2.4.</span> <span class="toc-text"> 会话连接事件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#acl"><span class="toc-number">3.</span> <span class="toc-text"> ACL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#watcher机制"><span class="toc-number">4.</span> <span class="toc-text"> Watcher机制</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(/img/post.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">醉探索戈壁</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-archive" aria-hidden="true"></i><span> 开发</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/categories/Java/"><i class="fa-fw fa fa-music"></i><span> Java</span></a></li><li><a class="site-page" href="/categories/multi-thread/"><i class="fa-fw fa fa-music"></i><span> 多线程</span></a></li><li><a class="site-page" href="/categories/JVM/"><i class="fa-fw fa fa-film"></i><span> JVM</span></a></li><li><a class="site-page" href="/categories/Netty/"><i class="fa-fw fa fa-film"></i><span> Netty</span></a></li><li><a class="site-page" href="/categories/Vue/"><i class="fa-fw fa fa-film"></i><span> Vue</span></a></li><li><a class="site-page" href="/categories/Ag-grid/"><i class="fa-fw fa fa-film"></i><span> Ag-grid</span></a></li></ul></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-tags" aria-hidden="true"></i><span> 数据库</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/categories/Mysql/"><i class="fa-fw fa fa-music"></i><span> Mysql</span></a></li><li><a class="site-page" href="/categories/Redis/"><i class="fa-fw fa fa-film"></i><span> Redis</span></a></li><li><a class="site-page" href="/categories/MongoDB/"><i class="fa-fw fa fa-film"></i><span> MongoDB</span></a></li></ul></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-folder-open" aria-hidden="true"></i><span> 系统架构</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/categories/Cloud/"><i class="fa-fw fa fa-music"></i><span> Cloud</span></a></li><li><a class="site-page" href="/categories/Dubbo/"><i class="fa-fw fa fa-music"></i><span> Dubbo</span></a></li><li><a class="site-page" href="/categories/Kafka/"><i class="fa-fw fa fa-film"></i><span> Kafka</span></a></li></ul></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 系统运维</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/categories/Docker/"><i class="fa-fw fa fa-music"></i><span> Docker</span></a></li><li><a class="site-page" href="/categories/K8s/"><i class="fa-fw fa fa-film"></i><span> K8s</span></a></li><li><a class="site-page" href="/categories/Zookeeper/"><i class="fa-fw fa fa-film"></i><span> Zookeeper</span></a></li><li><a class="site-page" href="/categories/Doc/"><i class="fa-fw fa fa-film"></i><span> Doc</span></a></li></ul></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 休闲娱乐</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于我</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">Zookeeper技术内幕</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-04-01 13:54:21"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-04-01</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-04-01 16:26:58"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-04-01</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Zookeeper/">Zookeeper</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/zh-CN/2020/04/01/54.html#post-comment"><span class="gitalk-comment-count comment-count"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div id="article-container"><h2 id="数据模型znode"><a class="markdownIt-Anchor" href="#数据模型znode"></a> 数据模型znode</h2>
+<blockquote>
+<p><code>zk</code>数据存储结构与标准的unix文件系统非常相似，都是在<em>根节点</em>下挂很多<em>子节点</em>。<code>zk</code>中没有引入传统文件系统中目录与文件的概念，而是使用了称为<code>znode</code>的数据节点概念。<code>znode</code>是<code>zk</code>中数据的<strong>最小单元</strong>，每个<code>znode</code>上都可以<strong>保存数据</strong>和<strong>挂载子节点</strong>，形成一个<em>树形化</em>命名空间。</p>
+</blockquote>
+<p><img src="/" class="lazyload" data-src="/images/znode.png"  alt="znode" /></p>
+<h3 id="节点类型"><a class="markdownIt-Anchor" href="#节点类型"></a> 节点类型</h3>
+<ul>
+<li><strong>持久节点</strong>：zk中最常见的节点，节点一旦被创建，只要不删除，其就会一直存在于zk中。</li>
+<li><strong>持久<em>顺序</em>节点</strong>：一个<strong>父节点</strong>可以为其<strong>直接子节点</strong>维护一份顺序，用于记录子节点创建的先后顺序。在创建子节点时，会自动在指定的节点名称后添加数字后缀，作为该节点的完整名称。序号由<code>10</code>位数字组成，从0开始计数。</li>
+<li><strong>临时节点</strong>：临时节点的<strong>生命周期</strong>与客户端的<strong>会话</strong>绑定在一起，会话消失则该节点也会消失。临时节点只能作为叶子节点，<strong>不能</strong>创建子节点。</li>
+<li><strong>临时<em>顺序</em>节点</strong>：添加了<em>创建序号</em>的临时节点</li>
+</ul>
+<h3 id="节点状态"><a class="markdownIt-Anchor" href="#节点状态"></a> 节点状态</h3>
+<ul>
+<li><code>cZxid</code>：<strong>Created Zxid</strong>，表示当前<code>znode</code>被<strong>创建</strong>时的 <em><strong>事务ID</strong></em></li>
+<li><code>ctime</code>：<strong>Created Tiem</strong>，表示当前<code>znode</code>被<strong>创建</strong>的 <em><strong>时间</strong></em></li>
+<li><code>mZxid</code>：<strong>Modified Zxid</strong>，表示当前<code>znode</code><strong>最后</strong>一次被<strong>修改</strong>时的 <em><strong>事务ID</strong></em></li>
+<li><code>mtime</code>：<strong>Modified Time</strong>，表示该<code>znode</code><strong>最后</strong>一次被<strong>修改</strong>的 <em><strong>时间</strong></em>。</li>
+<li><code>pZxid</code>：表示当前<code>znode</code>的<strong>子节点列表</strong>最后一次被修改时的<strong>事物ID</strong>。（只能是<strong>子节点列表变更</strong>了才会引起pZxid的变更，子节点<strong>内容</strong>的修改<strong>不会</strong>影响<code>pZxid</code>）</li>
+<li><code>cversion</code>：<strong>Children Version</strong>，表示<strong>子节点的版本号</strong>，该版本号用于充当乐观锁</li>
+<li><code>dataVersion</code>：表示当前<code>znode</code><strong>数据的版本号</strong>，该版本号用于充当乐观锁</li>
+<li><code>aclVersion</code>：表示当前<code>znode</code>的权限<strong>ACL的版本号</strong>，该版本号用于充当乐观锁。</li>
+<li><code>ephemeralOwner</code>：若当前<code>znode</code>为<strong>持久</strong>节点，则其值为<code>0</code>；若为<strong>临时</strong>节点，则其值为创建该节点的会话的<code>SessionID</code>。会话<strong>断开</strong>后会根据<code>SessionID</code>来<strong>删除</strong>相关<strong>临时节点</strong></li>
+<li><code>dataLength</code>：当前<code>znode</code>中存放的<strong>数据的长度</strong></li>
+<li><code>numChildren</code>：当前<code>znode</code>所包含的<strong>子节点</strong>的 <em>个数</em>。</li>
+</ul>
+<h2 id="会话"><a class="markdownIt-Anchor" href="#会话"></a> 会话</h2>
+<blockquote>
+<p>客户端和服务端之间的任何操作都与会话有关<br />
+Zookeeper客户端启动时，首先会与zk服务器建立一个TCP长连接，连接一旦建立，客户端会话的生命周期也就开始了。</p>
+</blockquote>
+<h3 id="会话状态"><a class="markdownIt-Anchor" href="#会话状态"></a> 会话状态</h3>
+<ul>
+<li><code>CONNECTING</code>：连接中。Client要创建一个连接，首先会在<em>本地</em> <strong>创建一个对象</strong>，用于表示其所连接上的Server。从zk对象被创建开始，会话状态就进入了CONNECTING，同时Client会从Server服务列表中通过轮询方式逐个尝试连接，直到连接成功。<code>注意</code>：在轮询前，其首先会将列表进行<strong>随机打散</strong>，然后再在打散的基础上进行<strong>轮询</strong>。</li>
+<li><code>CONNECTED</code>：已连接。连接成功后，该连接的各种<strong>临时性数据</strong>会被<strong>初始化到zk对象</strong>中</li>
+<li><code>CLOSED</code>：已关闭。连接关闭后，这个代表server的<code>zk对象</code>会被<strong>删除</strong></li>
+</ul>
+<h3 id="会话连接超时管理客户端维护"><a class="markdownIt-Anchor" href="#会话连接超时管理客户端维护"></a> 会话连接超时管理—客户端维护</h3>
+<blockquote>
+<p><em>客户端</em>所发起的服务端连接时间记录，是从<strong>客户端</strong>当前会话<strong>第一次</strong>发起服务端连接的时间开始计时。</p>
+</blockquote>
+<h3 id="会话空闲超时管理服务端维护"><a class="markdownIt-Anchor" href="#会话空闲超时管理服务端维护"></a> 会话空闲超时管理—服务端维护</h3>
+<blockquote>
+<p><em>服务端</em>为每一个客户端的会话都记录上一次交互后空闲的时长，即从上一次交互结束后就开始会话空闲超时的时间计时。一旦空闲时长超时，服务端就会将该会话的SessionId从服务端清除。这也就是为什么客户端在空闲时需要向服务端发送心跳，就是为了维护这个长连接会话。服务器是通过空闲超时来判断会话是否发生中断的。<br />
+服务端对于会话空闲超时的管理，采用了一种特殊的方式—<strong>分桶策略</strong></p>
+</blockquote>
+<ul>
+<li>分桶策略：将空闲超时时间相近的会话放到同一个桶中进行管理，以减少管理的复杂度。在检查超时的时候，只需要检查桶中剩下的会话即可，因为没有超时的会话已经被移出了桶，而桶中存在的会话就是超时的会话。zk对于会话空闲的<strong>超时</strong>管理并<strong>非精确</strong>的管理，即并非是一超时马上就执行相关的超时操作。</li>
+<li>分桶依据：从以下公式可知，一个桶的大小为ExpirationInterval时间。只要ExpirationTime落入到同一个桶中，系统就会对其中的会话超时进行统一管理。
+<blockquote>
+<p>ExpirationTime = CurrentTime + SessionTimeout<br />
+BucketTime = (ExpirationTime/ExpirationInterval + 1)*ExpirationInterval</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="会话连接事件"><a class="markdownIt-Anchor" href="#会话连接事件"></a> 会话连接事件</h3>
+<blockquote>
+<p>客户端和服务端的长连接失效后，客户端将进行重连。在重连的过程中客户端会产生三种会话连接事件</p>
+</blockquote>
+<ul>
+<li><code>CONNECTION_LOSS</code>: <strong>连接丢失</strong>。由于网络抖动等原因造成客户端长时间无法收到服务端的心跳回复，客户端就会引发<strong>连接丢失事件</strong>。该事件会触发当前客户端重连服务端，直到连接成功或连接超时。</li>
+<li><code>SESSION_MOVED</code>: <strong>会话转移</strong>。当发生连接丢失事件后，若客户端重新连接成功，但是此时连接成功的zk主机不是上一次连接的zk主机，此时服务端就会引发<strong>会话转移异常</strong>，而客户端就会引发<strong>会话转移事件</strong>，该事件会触发当前客户端使用第二次连接上的zk主机的地址与Server进行交互。</li>
+<li><code>SESSION_EXPIRED</code>: <strong>会话失效</strong>。若服务端发现某客户端会话空闲时间超时，那么服务器就会将该客户端会话进行清除。对于客户端来说，其长时间没有收到服务端的心跳回复，就会引发<strong>连接丢失事件</strong>，然后重新连接，直到连接成功或超时。但在会话已经从服务端清除，而重新连接又未超时的一个短暂的事件缝隙中，客户端与服务端连接成功了，此时客户端就会引发<strong>会话失效事件</strong>。该事件会触发客户端取消该连接，并使客户端重新实例化zk对象，即使用新的SessionId进行重连。</li>
+</ul>
+<h2 id="acl"><a class="markdownIt-Anchor" href="#acl"></a> ACL</h2>
+<h2 id="watcher机制"><a class="markdownIt-Anchor" href="#watcher机制"></a> Watcher机制</h2>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:3313204840@qq.com">醉</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://blog.fundodoo.com/zh-CN/2020/04/01/54.html">https://blog.fundodoo.com/zh-CN/2020/04/01/54.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.fundodoo.com" target="_blank">醉探索戈壁</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Zookeeper/">Zookeeper</a></div><div class="post_share"><div class="social-share" data-image="/img/post.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lazyload post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lazyload post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="next-post pull-full"><a href="/zh-CN/2020/03/31/11.html"><img class="next_cover lazyload" data-src="/img/post.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java_集合知识</div></div></a></div></nav><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
+  clientID: '539df2b5eadc368442b9',
+  clientSecret: '402b7e781e4f52e9cb22f9aec419626d47e6c59e',
+  repo: 'fundodoo.github.io',
+  owner: 'fundodoo',
+  admin: ['fundodoo'],
+  id: md5(decodeURI(location.pathname)),
+  language: 'zh-CN',
+  perPage: 10,
+  distractionFreeMode: false,
+  pagerDirection: 'last',
+  createIssueManually: false,
+  updateCountCallback: commentCount
+})
+gitalk.render('gitalk-container')
+
+function commentCount(n){
+  try {
+    document.getElementsByClassName('gitalk-comment-count')[0].innerHTML= n
+  } catch (e) {
+    return false
+  }
+}</script></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By 醉</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener"><img class="icp-icon" src="/img/icp.png"/><span>闽ICP备16001354号-2</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script id="ribbon_piao" mobile="false" src="/js/third-party/piao.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script><script src="/js/third-party/click_heart.js"></script><script src="/js/third-party/ClickShowText.js"></script></body></html>
