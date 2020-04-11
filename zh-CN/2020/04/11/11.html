@@ -1,0 +1,272 @@
+<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mysql 索引 | 醉探索戈壁</title><meta name="description" content="Mysql 索引"><meta name="keywords" content="Mysql,Mysql索引"><meta name="author" content="醉,3313204840@qq.com"><meta name="copyright" content="醉"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Mysql 索引"><meta name="twitter:description" content="Mysql 索引"><meta name="twitter:image" content="https://www.fundodoo.com/images/mysql_index.jpeg"><meta property="og:type" content="article"><meta property="og:title" content="Mysql 索引"><meta property="og:url" content="https://www.fundodoo.com/zh-CN/2020/04/11/11.html"><meta property="og:site_name" content="醉探索戈壁"><meta property="og:description" content="Mysql 索引"><meta property="og:image" content="https://www.fundodoo.com/images/mysql_index.jpeg"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '2'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="canonical" href="https://www.fundodoo.com/zh-CN/2020/04/11/11.html"><link rel="next" title="Mysql 架构" href="https://www.fundodoo.com/zh-CN/2020/04/09/31.html"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5/js/md5.min.js"></script><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'ca-pub-4349807219272870',
+  enable_page_level_ads: 'true'
+});</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: {"languages":{"author":"作者: 醉","link":"链接: ","source":"来源: 醉探索戈壁","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: {"text":"本人,超帥,富強,民主,文明,和谐,自由,平等,公正,法治,爱国,敬业,诚信,友善","fontSize":"15px"},
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: {"bookmark":{"message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#2d3035","position":"top-right"},
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: true,
+  isPhotoFigcaption: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">12</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">13</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">4</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fas fa-plug" aria-hidden="true"></i><span> 开发</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/categories/Java/"><i class="fa-fw fas fa-mug-hot"></i><span> Java</span></a></li><li><a class="site-page" href="/categories/multi-thread/"><i class="fa-fw fas fa-viruses"></i><span> 并发</span></a></li><li><a class="site-page" href="/categories/JVM/"><i class="fa-fw fab fa-java"></i><span> JVM</span></a></li><li><a class="site-page" href="/categories/Netty/"><i class="fa-fw fas fa-network-wired"></i><span> Netty</span></a></li><li><a class="site-page" href="/categories/Vue/"><i class="fa-fw fab fa-vuejs"></i><span> Vue</span></a></li><li><a class="site-page" href="/categories/Ag-grid/"><i class="fa-fw fas fa-pager"></i><span> Ag-grid</span></a></li></ul></div><div class="menus_item"><a class="site-page"><i class="fa-fw fas fa-database" aria-hidden="true"></i><span> 数据库</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/categories/Mysql/"><i class="fa-fw fas fa-table"></i><span> Mysql</span></a></li><li><a class="site-page" href="/categories/Redis/"><i class="fa-fw fab fa-cloudscale"></i><span> Redis</span></a></li><li><a class="site-page" href="/categories/MongoDB/"><i class="fa-fw fas fa-server"></i><span> MongoDB</span></a></li></ul></div><div class="menus_item"><a class="site-page"><i class="fa-fw fas fa-cloud-sun" aria-hidden="true"></i><span> 系统架构</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/categories/Cloud/"><i class="fa-fw fas fa-cloud-sun-rain"></i><span> Cloud</span></a></li><li><a class="site-page" href="/categories/Dubbo/"><i class="fa-fw fas fa-soap"></i><span> Dubbo</span></a></li><li><a class="site-page" href="/categories/Kafka/"><i class="fa-fw fas fa-kaaba"></i><span> Kafka</span></a></li><li><a class="site-page" href="/categories/Zookeeper/"><i class="fa-fw fas fa-balance-scale"></i><span> Zookeeper</span></a></li></ul></div><div class="menus_item"><a class="site-page"><i class="fa-fw fas fa-plus-square" aria-hidden="true"></i><span> 系统运维</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/categories/Docker/"><i class="fa-fw fab fa-docker"></i><span> Docker</span></a></li><li><a class="site-page" href="/categories/K8s/"><i class="fa-fw far fa-sun"></i><span> K8s</span></a></li><li><a class="site-page" href="/categories/Doc/"><i class="fa-fw far fa-bookmark"></i><span> Doc</span></a></li></ul></div><div class="menus_item"><a class="site-page"><i class="fa-fw fas fa-play-circle" aria-hidden="true"></i><span> 休闲娱乐</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="https://about.fundodoo.com" target="_blank" rel="noopener"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#索引介绍"><span class="toc-number">1.</span> <span class="toc-text"> 索引介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#优势"><span class="toc-number">1.1.</span> <span class="toc-text"> 优势</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#劣势"><span class="toc-number">1.2.</span> <span class="toc-text"> 劣势</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引分类"><span class="toc-number">2.</span> <span class="toc-text"> 索引分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#单列索引"><span class="toc-number">2.1.</span> <span class="toc-text"> 单列索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组合索引"><span class="toc-number">2.2.</span> <span class="toc-text"> 组合索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#全文索引"><span class="toc-number">2.3.</span> <span class="toc-text"> 全文索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#空间索引"><span class="toc-number">2.4.</span> <span class="toc-text"> 空间索引</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引使用"><span class="toc-number">3.</span> <span class="toc-text"> 索引使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建索引"><span class="toc-number">3.1.</span> <span class="toc-text"> 创建索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除索引"><span class="toc-number">3.2.</span> <span class="toc-text"> 删除索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看索引"><span class="toc-number">3.3.</span> <span class="toc-text"> 查看索引</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引原理分析"><span class="toc-number">4.</span> <span class="toc-text"> 索引原理分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#页-块-扇区"><span class="toc-number">4.1.</span> <span class="toc-text"> 页、块、扇区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#索引存储结构"><span class="toc-number">4.2.</span> <span class="toc-text"> 索引存储结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#b树和b树"><span class="toc-number">4.3.</span> <span class="toc-text"> B树和B+树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非聚集索引myisam"><span class="toc-number">4.4.</span> <span class="toc-text"> 非聚集索引(MyISAM)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#聚集索引innodb"><span class="toc-number">4.5.</span> <span class="toc-text"> 聚集索引(InnoDB)</span></a></li></ol></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(/images/top3.jpeg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">醉探索戈壁</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fas fa-plug" aria-hidden="true"></i><span> 开发</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/categories/Java/"><i class="fa-fw fas fa-mug-hot"></i><span> Java</span></a></li><li><a class="site-page" href="/categories/multi-thread/"><i class="fa-fw fas fa-viruses"></i><span> 并发</span></a></li><li><a class="site-page" href="/categories/JVM/"><i class="fa-fw fab fa-java"></i><span> JVM</span></a></li><li><a class="site-page" href="/categories/Netty/"><i class="fa-fw fas fa-network-wired"></i><span> Netty</span></a></li><li><a class="site-page" href="/categories/Vue/"><i class="fa-fw fab fa-vuejs"></i><span> Vue</span></a></li><li><a class="site-page" href="/categories/Ag-grid/"><i class="fa-fw fas fa-pager"></i><span> Ag-grid</span></a></li></ul></div><div class="menus_item"><a class="site-page"><i class="fa-fw fas fa-database" aria-hidden="true"></i><span> 数据库</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/categories/Mysql/"><i class="fa-fw fas fa-table"></i><span> Mysql</span></a></li><li><a class="site-page" href="/categories/Redis/"><i class="fa-fw fab fa-cloudscale"></i><span> Redis</span></a></li><li><a class="site-page" href="/categories/MongoDB/"><i class="fa-fw fas fa-server"></i><span> MongoDB</span></a></li></ul></div><div class="menus_item"><a class="site-page"><i class="fa-fw fas fa-cloud-sun" aria-hidden="true"></i><span> 系统架构</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/categories/Cloud/"><i class="fa-fw fas fa-cloud-sun-rain"></i><span> Cloud</span></a></li><li><a class="site-page" href="/categories/Dubbo/"><i class="fa-fw fas fa-soap"></i><span> Dubbo</span></a></li><li><a class="site-page" href="/categories/Kafka/"><i class="fa-fw fas fa-kaaba"></i><span> Kafka</span></a></li><li><a class="site-page" href="/categories/Zookeeper/"><i class="fa-fw fas fa-balance-scale"></i><span> Zookeeper</span></a></li></ul></div><div class="menus_item"><a class="site-page"><i class="fa-fw fas fa-plus-square" aria-hidden="true"></i><span> 系统运维</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/categories/Docker/"><i class="fa-fw fab fa-docker"></i><span> Docker</span></a></li><li><a class="site-page" href="/categories/K8s/"><i class="fa-fw far fa-sun"></i><span> K8s</span></a></li><li><a class="site-page" href="/categories/Doc/"><i class="fa-fw far fa-bookmark"></i><span> Doc</span></a></li></ul></div><div class="menus_item"><a class="site-page"><i class="fa-fw fas fa-play-circle" aria-hidden="true"></i><span> 休闲娱乐</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="https://about.fundodoo.com" target="_blank" rel="noopener"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">Mysql 索引</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-04-11 14:11:45"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-04-11</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-04-11 16:56:00"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-04-11</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Mysql/">Mysql</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="post-meta__icon far fa-comments" aria-hidden="true"></i><span>评论数:</span><a href="/zh-CN/2020/04/11/11.html#post-comment"><span class="gitalk-comment-count comment-count"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div id="article-container"><h2 id="索引介绍"><a class="markdownIt-Anchor" href="#索引介绍"></a> 索引介绍</h2>
+<blockquote>
+<p>索引是帮助Mysql高效获取数据的数据结构，就像一本书前面的目录，能加快数据库的查询速度。</p>
+</blockquote>
+<h3 id="优势"><a class="markdownIt-Anchor" href="#优势"></a> 优势</h3>
+<ul>
+<li>可以提高数据<strong>检索效率</strong>，降低数据库的<strong>IO成本</strong>   —检索</li>
+<li>通过索引列对数据排序，<strong>降低</strong>数据<strong>排序的成本</strong>，<strong>降低</strong>CPU的消耗    —排序
+<ul>
+<li>被索引的列会自动进行排序，包括【单列索引】、【组合索引】。组合索引的排序要复杂一些</li>
+<li>如果是按照<strong>索引列的顺序</strong>进行排序，对应order by语句，效率就会提升很多</li>
+<li>where 索引列，在<strong>存储引擎层处理</strong>，这里使用到了<strong>索引下推</strong>（<strong>ICP</strong>）</li>
+<li><strong>覆盖索引</strong>  <code>select 字段</code> 字段是索引列，则<strong>不</strong>需要<strong>回表查询</strong>。</li>
+</ul>
+</li>
+</ul>
+<h3 id="劣势"><a class="markdownIt-Anchor" href="#劣势"></a> 劣势</h3>
+<ul>
+<li>索引会<strong>占据磁盘空间</strong></li>
+<li>索引提高了查询效率，但是会<strong>降低更新表</strong>的效率。比如每次对表进行增删改操作，Mysql不仅要保存数据，还要保存或者更新对应的索引文件</li>
+</ul>
+<h2 id="索引分类"><a class="markdownIt-Anchor" href="#索引分类"></a> 索引分类</h2>
+<h3 id="单列索引"><a class="markdownIt-Anchor" href="#单列索引"></a> 单列索引</h3>
+<ul>
+<li><strong>普通索引</strong>：Mysql中的基本索引类型，允许在定义索引的列中插入重复值和空值，纯粹为了查询速度更快一些</li>
+<li><strong>唯一索引</strong>：索引列中的<strong>值</strong>必须是<strong>唯一</strong>的，但是<strong>允许</strong>空值</li>
+<li><strong>主键索引</strong>：特殊的唯一索引，<strong>不允许</strong>空值</li>
+</ul>
+<h3 id="组合索引"><a class="markdownIt-Anchor" href="#组合索引"></a> 组合索引</h3>
+<ul>
+<li>在表中<strong>多个列</strong>上创建的索引</li>
+<li>组合索引的使用，需要遵循<strong>最左前缀原则</strong></li>
+<li>建议使用组合索引替代单列索引</li>
+</ul>
+<h3 id="全文索引"><a class="markdownIt-Anchor" href="#全文索引"></a> 全文索引</h3>
+<blockquote>
+<p>只有在MyIsam引擎上使用，而且只能在CHAR、VARCHAR、TEXT类型字段才能使用全文索引</p>
+</blockquote>
+<h3 id="空间索引"><a class="markdownIt-Anchor" href="#空间索引"></a> 空间索引</h3>
+<blockquote></blockquote>
+<h2 id="索引使用"><a class="markdownIt-Anchor" href="#索引使用"></a> 索引使用</h2>
+<h3 id="创建索引"><a class="markdownIt-Anchor" href="#创建索引"></a> 创建索引</h3>
+<blockquote>
+<p>创建索引时，可以指定索引列使用<strong>多大的长度</strong>作为索引，但是<strong>数值类型不要指定</strong>。</p>
+</blockquote>
+<ul>
+<li>
+<p>单列索引–普通索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> index_name <span class="keyword">ON</span> <span class="keyword">table</span>(<span class="keyword">column</span>(<span class="keyword">length</span>));  //方法1</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> table_name <span class="keyword">ADD</span> <span class="keyword">INDEX</span> index_name (<span class="keyword">column</span>(<span class="keyword">length</span>));    //方法2</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>单列索引–唯一索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> <span class="keyword">INDEX</span> index_name <span class="keyword">ON</span> <span class="keyword">table</span>(<span class="keyword">column</span>(<span class="keyword">length</span>));  //方法1</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> table_name <span class="keyword">ADD</span> <span class="keyword">UNIQUE</span> <span class="keyword">INDEX</span> index_name (<span class="keyword">column</span>(<span class="keyword">length</span>));    //方法2</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>单列索引–全文索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> FULLTEXT <span class="keyword">INDEX</span> index_name <span class="keyword">ON</span> <span class="keyword">table</span>(<span class="keyword">column</span>(<span class="keyword">length</span>));  //方法1</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> table_name <span class="keyword">ADD</span> FULLTEXT <span class="keyword">INDEX</span> index_name (<span class="keyword">column</span>);    //方法2</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>组合索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> table_name <span class="keyword">ADD</span> <span class="keyword">INDEX</span> index_name (column1(<span class="keyword">length</span>),column2(<span class="keyword">length</span>));</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="删除索引"><a class="markdownIt-Anchor" href="#删除索引"></a> 删除索引</h3>
+<ul>
+<li>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">INDEX</span> index_name <span class="keyword">ON</span> <span class="keyword">table</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="查看索引"><a class="markdownIt-Anchor" href="#查看索引"></a> 查看索引</h3>
+<ul>
+<li>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">INDEX</span> <span class="keyword">FROM</span> <span class="keyword">table</span>  \G</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="索引原理分析"><a class="markdownIt-Anchor" href="#索引原理分析"></a> 索引原理分析</h2>
+<h3 id="页-块-扇区"><a class="markdownIt-Anchor" href="#页-块-扇区"></a> 页、块、扇区</h3>
+<blockquote>
+<p><strong>内存</strong>以<code>页</code>这个单位去进行IO读取，一般大小为<code>4k</code>,在Mysql中可以通过<code>innodb_page_size</code>设置大小，一般设置为<code>16k</code><br />
+<strong>操作系统</strong>以<code>块</code>这个逻辑单位去操作磁盘，常见为<code>4k</code><br />
+<strong>磁盘</strong>以<code>扇区</code>这个物理最小磁盘单位去存储数据，常见为<code>512Byte</code></p>
+</blockquote>
+<blockquote>
+<p><code>页</code>大小查看：<code>getconf PAGE_SIZE</code>,常见为4k<br />
+<code>块</code>大小查看：<code>stat /boot/|grep &quot;IO Block&quot;</code>,常见为4k<br />
+<code>扇区</code>大小查看：<code>fdisk -l</code>,常见为512Byte</p>
+</blockquote>
+<blockquote>
+<p><strong>指针</strong>默认长度为<code>6bit</code>，如果<strong>key</strong>为bigint则是<code>8bit</code>，那么一个<strong>索引</strong>为8+6=<code>14bit</code></p>
+</blockquote>
+<h3 id="索引存储结构"><a class="markdownIt-Anchor" href="#索引存储结构"></a> 索引存储结构</h3>
+<ul>
+<li>索引是在<strong>存储引擎中实现</strong>的，也就是说不同的存储引擎使用不同的索引</li>
+<li>MyISAM和<strong>InnoDB</strong>存储引擎：<strong>只</strong>支持<strong>B+ TREE</strong>索引，也就是说默认使用BTREE，<strong>不能更换</strong></li>
+<li>Memory存储引擎：支持HASH、BTREE索引</li>
+</ul>
+<h3 id="b树和b树"><a class="markdownIt-Anchor" href="#b树和b树"></a> B树和B+树</h3>
+<blockquote>
+<p>数据结构演示网站：<a href="https://www.cs.usfca.edu/~galles/visualization/Algorithms.html" target="_blank" rel="noopener">https://www.cs.usfca.edu/~galles/visualization/Algorithms.html</a></p>
+</blockquote>
+<ul>
+<li>
+<p>B树</p>
+<ul>
+<li>B树是为了磁盘或其他存储设备而设计的一种多叉平衡查找树</li>
+<li>B树的高度一般都在2-4这个高度，树的高度直接影响IO读写次数</li>
+<li>如果是三层树结构—可以支撑20G的数据，如果是四层结构—可以支撑几十 T<br />
+<img src="/" class="lazyload" data-src="/images/btree.png"  alt="B TREE" /></li>
+</ul>
+</li>
+<li>
+<p>B+ 树<br />
+<img src="/" class="lazyload" data-src="/images/b+tree.png"  alt="B TREE" /></p>
+</li>
+<li>
+<p><span style="color:red;"><strong>区别</strong></span></p>
+<ul>
+<li>B树和B+树的最大区别在于<strong>非叶子节点是否存储数据</strong>
+<ol>
+<li>B树是非叶子节点和叶子节点都会存储数据</li>
+<li>B+树<strong>只</strong>有<strong>叶子节点</strong>存储数据，而且存储的数据都是在一行上，这些数据都是有指针指向的，也就是有顺序的。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="非聚集索引myisam"><a class="markdownIt-Anchor" href="#非聚集索引myisam"></a> 非聚集索引(MyISAM)</h3>
+<blockquote>
+<p>B+树叶子节点只会存储<strong>数据行(数据文件)的指针</strong>，也即是<strong>数据和索引</strong>存储<strong>在不同的文件</strong>就是非聚集索引<br />
+非聚集索引包含<strong>主键索引</strong>和<strong>辅助索引</strong>都会存<strong>储指针的值</strong></p>
+</blockquote>
+<ul>
+<li>
+<p>主键索引<br />
+<img src="/" class="lazyload" data-src="/images/mysql_feijj.jpg"  alt="非聚集主键索引" /></p>
+</li>
+<li>
+<p>辅助索引(次要索引)<br />
+<img src="/" class="lazyload" data-src="/images/mysql_feijjfz.jpg"  alt="非聚集辅助索引" /></p>
+</li>
+</ul>
+<h3 id="聚集索引innodb"><a class="markdownIt-Anchor" href="#聚集索引innodb"></a> 聚集索引(InnoDB)</h3>
+<blockquote>
+<p>完整的记录，存储在主键索引中，通过<strong>主键</strong>索引就可以<strong>获取</strong>记录<strong>所有的列</strong>，也就是说<strong>数据和索引</strong>是在<strong>一起</strong><br />
+<strong>主键索引</strong><span style="color:red;">必须要有</span>，表如果没有设置主键，则系统会默认生成一个隐藏的唯一列，由该列去创建key作为主键<br />
+主键最好是int<br />
+<strong>次要索引</strong>只<em>存储</em>主键索引的<strong>主键key</strong>，不存储表数据</p>
+</blockquote>
+<ul>
+<li>
+<p>主键索引<br />
+<img src="/" class="lazyload" data-src="/images/mysql_jj.jpg"  alt="聚集主键索引" /></p>
+</li>
+<li>
+<p>辅助索引(次要索引)<br />
+<img src="/" class="lazyload" data-src="/images/mysql_jjfz2.jpg"  alt="聚集辅助索引" /></p>
+<p><span style="color:red;"><strong>注意</strong></span>：<strong>聚集索引</strong>如果是<strong>非主键查询</strong>，则需要<strong>搜索两次</strong>索引树(一次是搜索次要索引树，一次是搜索主键索引树)才能查出数据</p>
+<p><img src="/" class="lazyload" data-src="/images/mysql_jjfz.jpg"  alt="聚集辅助索引" /></p>
+</li>
+</ul>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:3313204840@qq.com">醉</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.fundodoo.com/zh-CN/2020/04/11/11.html">https://www.fundodoo.com/zh-CN/2020/04/11/11.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.fundodoo.com" target="_blank">醉探索戈壁</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Mysql/">Mysql</a><a class="post-meta__tags" href="/tags/Mysql%E7%B4%A2%E5%BC%95/">Mysql索引</a></div><div class="post_share"><div class="social-share" data-image="/images/mysql_index.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lazyload post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lazyload post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="next-post pull-full"><a href="/zh-CN/2020/04/09/31.html"><img class="next_cover lazyload" data-src="/images/mysql_jiagou.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Mysql 架构</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/zh-CN/2020/04/09/31.html" title="Mysql 架构"><img class="relatedPosts_cover lazyload"data-src="/images/mysql_jiagou.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-09</div><div class="relatedPosts_title">Mysql 架构</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
+  clientID: '539df2b5eadc368442b9',
+  clientSecret: '402b7e781e4f52e9cb22f9aec419626d47e6c59e',
+  repo: 'fundodoo.github.io',
+  owner: 'fundodoo',
+  admin: ['fundodoo'],
+  id: md5(decodeURI(location.pathname)),
+  language: 'zh-CN',
+  perPage: 10,
+  distractionFreeMode: false,
+  pagerDirection: 'last',
+  createIssueManually: false,
+  updateCountCallback: commentCount
+})
+gitalk.render('gitalk-container')
+
+function commentCount(n){
+  try {
+    document.getElementsByClassName('gitalk-comment-count')[0].innerHTML= n
+  } catch (e) {
+    return false
+  }
+}</script></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By 醉</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div><div class="icp"><a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener"><img class="icp-icon" src="/img/icp.png"/><span>闽ICP备16001354号-2</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><i class="darkmode far fa-moon" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script id="ribbon_piao" mobile="false" src="/js/third-party/piao.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script><script src="/js/third-party/click_heart.js"></script><script src="/js/third-party/ClickShowText.js"></script></body></html>
